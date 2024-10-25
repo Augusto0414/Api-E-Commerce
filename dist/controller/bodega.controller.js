@@ -70,5 +70,18 @@ class BodegaController {
             }
         });
     }
+    static updateBodega(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                const dataBodega = req.body;
+                const updatedBodega = yield bodegasService.updateBodega(id, dataBodega);
+                res.json(updatedBodega);
+            }
+            catch (error) {
+                res.status(500).json({ message: "Error al actualizar la bodega", error });
+            }
+        });
+    }
 }
 exports.BodegaController = BodegaController;

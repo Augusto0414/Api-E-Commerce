@@ -14,7 +14,15 @@ export class SubCategoriaController {
         id: subcategory.id,
         nombre: subcategory.nombre,
         descripcion: subcategory.descripcion,
-        categoriaNombre: subcategory.categoria.nombre,
+        categoria: {
+          id: subcategory.categoria.id,
+          nombre: subcategory.categoria.nombre,
+          descripcion: subcategory.categoria.descripcion,
+          fechaCreacion: subcategory.categoria.fechaCreacion,
+          fechaModificacion: subcategory.categoria.fechaModificacion,
+        },
+        fechaCreacion: subcategory.fechaCreacion,
+        fechaModificacion: subcategory.fechaModificacion,
       }));
 
       res.json(formattedSubcategories);

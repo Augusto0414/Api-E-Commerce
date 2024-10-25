@@ -24,9 +24,23 @@ class SubcategoriesService {
     }
     getAllSubcategories() {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.subcategoriesRepository.find({
+            const subcategorias = yield this.subcategoriesRepository.find({
                 relations: ["categoria"],
             });
+            return subcategorias.map((subcategoria) => ({
+                id: subcategoria.id,
+                nombre: subcategoria.nombre,
+                descripcion: subcategoria.descripcion,
+                fechaCreacion: subcategoria.fechaCreacion,
+                fechaModificacion: subcategoria.fechaModificacion,
+                categoria: {
+                    id: subcategoria.categoria.id,
+                    nombre: subcategoria.categoria.nombre,
+                    descripcion: subcategoria.categoria.descripcion,
+                    fechaCreacion: subcategoria.categoria.fechaCreacion,
+                    fechaModificacion: subcategoria.categoria.fechaModificacion,
+                },
+            }));
         });
     }
     createSubcategory(subcategoriaData) {

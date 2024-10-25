@@ -1,4 +1,4 @@
-import { ILike, Repository } from "typeorm";
+import { ILike } from "typeorm";
 import pool from "../database/config";
 import { Subcategoria } from "../models/Subcategoria";
 import { Categoria } from "../models/Categoria";
@@ -7,10 +7,25 @@ export class SubcategoriesService {
   private subcategoriesRepository = pool.getRepository(Subcategoria);
   private categoriesRepository = pool.getRepository(Categoria);
 
-  async getAllSubcategories(): Promise<Subcategoria[]> {
-    return await this.subcategoriesRepository.find({
+  async getAllSubcategories(): Promise<any[]> {
+    const subcategorias = await this.subcategoriesRepository.find({
       relations: ["categoria"],
     });
+
+    return subcategorias.map((subcategoria) => ({
+      id: subcategoria.id,
+      nombre: subcategoria.nombre,
+      descripcion: subcategoria.descripcion,
+      fechaCreacion: subcategoria.fechaCreacion,
+      fechaModificacion: subcategoria.fechaModificacion,
+      categoria: {
+        id: subcategoria.categoria.id,
+        nombre: subcategoria.categoria.nombre,
+        descripcion: subcategoria.categoria.descripcion,
+        fechaCreacion: subcategoria.categoria.fechaCreacion,
+        fechaModificacion: subcategoria.categoria.fechaModificacion,
+      },
+    }));
   }
 
   async createSubcategory(subcategoriaData: Partial<Subcategoria>): Promise<Subcategoria> {

@@ -6,4 +6,6 @@ const router = (0, express_1.Router)();
 router.post("/bodegas", bodega_controller_1.BodegaController.createBodega);
 router.get("/bodegas", bodega_controller_1.BodegaController.getAllBodegas);
 router.get("/bodegas/search", bodega_controller_1.BodegaController.filterBodega);
+router.put("/bodegas/:id", bodega_controller_1.BodegaController.updateBodega);
+router.delete("/bodegas/:id", bodega_controller_1.BodegaController.deleteBodega);
 exports.default = router;

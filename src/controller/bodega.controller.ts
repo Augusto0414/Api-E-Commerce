@@ -49,4 +49,14 @@ export class BodegaController {
       res.status(500).json({ message: "Error al filtrar las bodegas", error });
     }
   }
+  static async updateBodega(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+      const dataBodega = req.body;
+      const updatedBodega = await bodegasService.updateBodega(id, dataBodega);
+      res.json(updatedBodega);
+    } catch (error) {
+      res.status(500).json({ message: "Error al actualizar la bodega", error });
+    }
+  }
 }

@@ -22,4 +22,13 @@ export class BodegaService {
       },
     });
   }
+  async updateBodega(id: string, dataBodega: Partial<Bodega>): Promise<Bodega> {
+    const bodega = await this.bodegasRepository.findOne({ where: { id } });
+    if (!bodega) {
+      throw new Error("Bodega no encontrada");
+    }
+
+    const updateDate = this.bodegasRepository.merge({ ...bodega, ...dataBodega });
+    return await this.bodegasRepository.save(updateDate);
+  }
 }

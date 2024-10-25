@@ -1,6 +1,6 @@
 import { Router } from "express";
 import cliente from "./cliente.routes";
-import producto from "./prodcuto.routes";
+import producto from "./productos.routes";
 import category from "./categoria.routes";
 import subcategory from "./subcategoria.routes";
 import bodega from "./bodega.routes";

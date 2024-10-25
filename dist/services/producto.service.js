@@ -12,49 +12,52 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BodegaService = void 0;
+exports.ProductoService = void 0;
 const typeorm_1 = require("typeorm");
 const config_1 = __importDefault(require("../database/config"));
-const index_1 = require("../models/index");
-class BodegaService {
+const Producto_1 = require("../models/Producto");
+class ProductoService {
     constructor() {
-        this.bodegasRepository = config_1.default.getRepository(index_1.Bodega);
+        this.productoRepository = config_1.default.getRepository(Producto_1.Producto);
     }
-    getAllBodegas() {
+    getAllProducto() {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.bodegasRepository.find();
-        });
-    }
-    createBodega(dataBodega) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const bodega = this.bodegasRepository.create(dataBodega);
-            return yield this.bodegasRepository.save(bodega);
-        });
-    }
-    deleteBodega(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const result = yield this.bodegasRepository.delete({ id });
-            return result.affected !== 0;
-        });
-    }
-    getFilterBodega(filter) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield this.bodegasRepository.find({
-                where: {
-                    nombre: (0, typeorm_1.ILike)(`%${filter}%`),
-                },
+            return yield this.productoRepository.find({
+                relations: ["categoria", "subcategoria"],
             });
         });
     }
-    updateBodega(id, dataBodega) {
+    createProducto(producto) {
         return __awaiter(this, void 0, void 0, function* () {
-            const bodega = yield this.bodegasRepository.findOne({ where: { id } });
-            if (!bodega) {
-                throw new Error("Bodega no encontrada");
+            const newProducto = this.productoRepository.create(producto);
+            return yield this.productoRepository.save(newProducto);
+        });
+    }
+    deleteProducto(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const deleteProduct = yield this.productoRepository.delete(id);
+            return deleteProduct.affected !== 0;
+        });
+    }
+    updateProdcuto(id, producto) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const updateProdut = yield this.productoRepository.findOne({ where: { id } });
+            if (!updateProdut) {
+                throw new Error("No se encontro este producto para hacer el update");
             }
-            const updateDate = this.bodegasRepository.merge(Object.assign(Object.assign({}, bodega), dataBodega));
-            return yield this.bodegasRepository.save(updateDate);
+            const dataUpdate = this.productoRepository.merge(Object.assign(Object.assign({}, updateProdut), producto));
+            return yield this.productoRepository.save(dataUpdate);
+        });
+    }
+    getFilterProductos(filter) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.productoRepository.find({
+                where: {
+                    nombre: (0, typeorm_1.ILike)(`%${filter}%`),
+                },
+                relations: ["categoria", "subcategoria"],
+            });
         });
     }
 }
-exports.BodegaService = BodegaService;
+exports.ProductoService = ProductoService;
