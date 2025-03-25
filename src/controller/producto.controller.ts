@@ -38,7 +38,7 @@ export class ProductoControlller {
       if (!data) res.status(404).json({ message: "Producto no encontrado para eliminar" });
       res.status(204).send();
     } catch (error) {
-      res.status(500).json({ error: error, message: "Error al eliminar el producto" });
+      res.status(500).json({ error: error, message: "Error al intentar eliminar el producto" });
     }
   }
 
